@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAYKAY // RL COACHING</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #06080f;
+      --bg2:     #0b0e1a;
+      --navy:    #0d1226;
+      --blue:    #00b8e6;
+      --purple:  #9b4dff;
+      --cream:   #e8e0cc;
+      --muted:   #5a6480;
+      --white:   #f0ecdf;
+      --glow-b:  rgba(0,184,230,0.4);
+      --glow-p:  rgba(155,77,255,0.4);
+      --stripe:  rgba(0,184,230,0.055);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* diagonal stripe texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: repeating-linear-gradient(
+        -55deg,
+        transparent,
+        transparent 28px,
+        var(--stripe) 28px,
+        var(--stripe) 30px
+      );
+      pointer-events: none;
+    }
+
+    section, nav, footer { position: relative; z-index: 1; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      height: 62px;
+      background: rgba(6,8,15,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--blue);
+    }
+    nav::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 5px;
+      background: linear-gradient(to bottom, var(--blue), var(--purple));
+    }
+
+    .nav-logo {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.14em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo .star { color: var(--blue); margin-right: 0.3rem; }
+    .nav-logo span  { color: var(--blue); }
+
+    nav ul { display: flex; list-style: none; align-items: stretch; height: 62px; }
+    nav ul li a {
+      display: flex;
+      align-items: center;
+      padding: 0 1.3rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 0.2s, background 0.2s;
+    }
+    nav ul li a:hover { color: var(--blue); background: rgba(0,184,230,0.05); }
+    .nav-cta {
+      background: var(--blue) !important;
+      color: var(--bg) !important;
+      font-weight: 800 !important;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      padding: 0 1.8rem !important;
+    }
+    .nav-cta:hover { background: #22d4ff !important; box-shadow: 0 0 22px var(--glow-b); }
+
+    /* ─── HERO ─── */
+    #home {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 9rem 5vw 5rem;
+      text-align: center;
+    }
+    .hero-inner { max-width: 860px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: var(--navy);
+      border: 1px solid var(--blue);
+      padding: 0.28rem 1.1rem 0.28rem 0.7rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      animation: fadeUp 0.6s ease both;
+    }
+    .eyebrow .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 7px var(--blue);
+      animation: blink 1.6s infinite;
+    }
+
+    h1 {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: clamp(3.2rem, 10vw, 7.5rem);
+      line-height: 0.93;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      animation: fadeUp 0.7s 0.08s ease both;
+    }
+    .outline-text {
+      -webkit-text-stroke: 2px var(--blue);
+      color: transparent;
+    }
+    .purple-fill { color: var(--purple); }
+
+    .hero-rule {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.8rem auto;
+      max-width: 500px;
+      animation: fadeUp 0.7s 0.18s ease both;
+    }
+    .hero-rule::before, .hero-rule::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--blue));
+    }
+    .hero-rule::after { background: linear-gradient(to left, transparent, var(--blue)); }
+    .hero-rule span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--blue);
+      letter-spacing: 0.18em;
+      white-space: nowrap;
+    }
+
+    .hero-sub {
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 540px;
+      margin: 0 auto;
+      animation: fadeUp 0.7s 0.24s ease both;
+    }
+    .hero-sub strong { color: var(--cream); }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2.2rem;
+      animation: fadeUp 0.7s 0.32s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2.2rem;
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 0.86rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--blue);
+      color: var(--bg);
+      clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    }
+    .btn-primary:hover { box-shadow: 0 0 28px var(--glow-b); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--cream);
+      border: 2px solid rgba(255,255,255,0.18);
+    }
+    .btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
+    .svg-ico { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+
+    /* social strip */
+    .social-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.8rem;
+      animation: fadeUp 0.7s 0.42s ease both;
+    }
+    .ss-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-right: 0.3rem;
+    }
+    .soc {
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.18s, border-color 0.18s, background 0.18s;
+    }
+    .soc svg { width: 15px; height: 15px; fill: currentColor; }
+    .soc:hover               { background: rgba(0,184,230,0.1);  border-color: var(--blue); color: var(--blue); }
+    .soc.twitch:hover        { background: rgba(145,71,255,0.1); border-color: #9147ff;     color: #9147ff; }
+    .soc.youtube:hover       { background: rgba(255,0,0,0.1);    border-color: #ff3333;     color: #ff3333; }
+    .soc.tiktok:hover        { background: rgba(0,242,234,0.08); border-color: #00f2ea;     color: #00f2ea; }
+    .soc.instagram:hover     { background: rgba(225,48,108,0.1); border-color: #e1306c;     color: #e1306c; }
+
+    /* stats */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      margin-top: 3.5rem;
+      border-top: 1px solid rgba(0,184,230,0.2);
+      border-bottom: 1px solid rgba(0,184,230,0.2);
+      animation: fadeUp 0.7s 0.52s ease both;
+    }
+    .stat {
+      flex: 1; max-width: 220px;
+      padding: 1.4rem 1rem;
+      text-align: center;
+      border-right: 1px solid rgba(0,184,230,0.15);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 2.2rem;
+      color: var(--blue);
+      line-height: 1;
+    }
+    .stat-num.p { color: var(--purple); }
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    /* shimmer band */
+    .band {
+      height: 5px;
+      background: linear-gradient(to right, var(--blue), var(--purple), var(--blue));
+      background-size: 200% 100%;
+      animation: shimmer 4s linear infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .sec-hdr {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .sec-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.22em;
+      color: var(--purple);
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+    }
+    .sec-title {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+    .sec-title .b { color: var(--blue); }
+    .sec-line {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, var(--blue), transparent);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ─── SERVICES ─── */
+    #services {
+      padding: 5rem 5vw 6rem;
+      background: var(--bg2);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: rgba(0,184,230,0.1);
+      border: 1px solid rgba(0,184,230,0.15);
+    }
+
+    .service-card {
+      background: var(--bg2);
+      padding: 2rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+    /* diagonal corner cut */
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 0 22px 22px 0;
+      border-color: transparent rgba(0,184,230,0.3) transparent transparent;
+      transition: border-color 0.25s;
+    }
+    /* bottom accent */
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--blue), var(--purple));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .service-card:hover { background: rgba(0,184,230,0.035); }
+    .service-card:hover::before { border-color: transparent var(--blue) transparent transparent; }
+    .service-card:hover::after  { transform: scaleX(1); }
+
+    .card-num {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 3.5rem;
+      line-height: 1;
+      color: rgba(0,184,230,0.07);
+      position: absolute;
+      top: 0.8rem; right: 1.2rem;
+      transition: color 0.25s;
+      pointer-events: none;
+    }
+    .service-card:hover .card-num { color: rgba(0,184,230,0.13); }
+
+    .service-icon { font-size: 1.6rem; margin-bottom: 0.9rem; }
+    .service-card h3 {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.65rem;
+      color: var(--cream);
+    }
+    .service-card p {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+    .tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid rgba(0,184,230,0.25);
+      color: var(--blue);
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      padding: 6rem 5vw 7rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .contact-wrap { width: 100%; max-width: 620px; }
+
+    .contact-box {
+      background: var(--navy);
+      border: 1px solid rgba(0,184,230,0.2);
+      padding: 3rem 2.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-box::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--blue), var(--purple));
+    }
+    .contact-box::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 0 40px 40px 0;
+      border-color: transparent var(--bg) transparent transparent;
+    }
+
+    .contact-desc {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+
+    .discord-block {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(88,101,242,0.1);
+      border: 1px solid rgba(88,101,242,0.3);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 2rem;
+    }
+    .discord-ico-wrap {
+      width: 44px; height: 44px;
+      background: #5865f2;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .discord-ico-wrap svg { width: 24px; fill: white; }
+    .discord-text strong { display: block; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.04em; }
+    .discord-text span   { font-size: 0.82rem; font-weight: 400; color: var(--muted); }
+
+    .socials-lbl {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .socials-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+    .soc-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.85rem 0.4rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .soc-tile svg { width: 18px; height: 18px; fill: currentColor; }
+    .soc-tile:hover { transform: translateY(-3px); }
+    .soc-tile.twitter:hover   { background: rgba(29,161,242,0.1);  border-color: #1da1f2; color: #1da1f2; }
+    .soc-tile.twitch:hover    { background: rgba(145,71,255,0.1);  border-color: #9147ff; color: #9147ff; }
+    .soc-tile.youtube:hover   { background: rgba(255,0,0,0.1);     border-color: #ff3333; color: #ff3333; }
+    .soc-tile.tiktok:hover    { background: rgba(0,242,234,0.08);  border-color: #00f2ea; color: #00f2ea; }
+    .soc-tile.instagram:hover { background: rgba(225,48,108,0.1);  border-color: #e1306c; color: #e1306c; }
+
+    .contact-note {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--muted);
+      line-height: 1.65;
+      border-top: 1px solid rgba(0,184,230,0.12);
+      padding-top: 1.4rem;
+    }
+    .contact-note strong { color: var(--cream); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg);
+      border-top: 2px solid rgba(0,184,230,0.2);
+      padding: 1.6rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .footer-logo {
+      font-family: 'Black Ops One', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.14em;
+    }
+    .footer-logo span { color: var(--blue); }
+    .footer-copy {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── KEYFRAMES ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .stats-bar { flex-wrap: wrap; }
+      .stat { min-width: 120px; }
+      .sec-line { display: none; }
+      .contact-box { padding: 2rem 1.4rem; }
+      .socials-row { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#home"><span class="star">★</span> MAY<span>KAY</span></a>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact" class="nav-cta">Get Coached</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-inner">
+
+    <div class="eyebrow">
+      <span class="dot"></span>
+      GC III &nbsp;·&nbsp; Hunting SSL &nbsp;·&nbsp; Global Coaching
+    </div>
+
+    <h1>
+      <span class="outline-text">ROCKET</span><br>
+      <span class="purple-fill">LEAGUE</span><br>
+      COACHING
+    </h1>
+
+    <div class="hero-rule">
+      <span>★ MAYKAY ★</span>
+    </div>
+
+    <p class="hero-sub">
+      Grand Champion III and climbing — I coach <strong>anyone, any rank, any region.</strong> If you want to level up, I'll show you exactly how.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">
+        <svg class="svg-ico" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.033.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        Get Coached
+      </a>
+      <a href="#services" class="btn btn-ghost">View Services</a>
+    </div>
+
+    <div class="social-strip">
+      <span class="ss-label">Follow</span>
+      <a href="https://twitter.com/maykayRL" target="_blank" class="soc" title="@maykayRL on X/Twitter">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="https://twitch.tv/maykayRL" target="_blank" class="soc twitch" title="maykayRL on Twitch">
+        <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+      </a>
+      <a href="https://youtube.com/@maykayRL" target="_blank" class="soc youtube" title="@maykayRL on YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+      <a href="https://tiktok.com/@maykayRL" target="_blank" class="soc tiktok" title="@maykayRL on TikTok">
+        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      </a>
+      <a href="https://instagram.com/maykayRL" target="_blank" class="soc instagram" title="@maykayRL on Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-num">GC3</div>
+        <div class="stat-label">Current Rank</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num p">ANY</div>
+        <div class="stat-label">Rank Welcome</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num p">ALL</div>
+        <div class="stat-label">Regions</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="band"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sec-hdr">
+    <div>
+      <p class="sec-tag">// What I offer</p>
+      <h2 class="sec-title">THE <span class="b">SERVICES</span></h2>
+    </div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="card-num">01</div>
+      <div class="service-icon">🎯</div>
+      <h3>VOD Review</h3>
+      <p>I'll dissect your replays and call out every missed rotation, positioning error, and boost misread — so you know exactly what to fix and why.</p>
+      <div class="tag-row"><span class="tag">All Ranks</span><span class="tag">1v1 · 2v2 · 3v3</span></div>
+    </div>
+    <div class="service-card">
+      <div class="card-num">02</div>
+      <div class="service-icon">🎮</div>
+      <h3>Live Session</h3>
+      <p>Play while I watch and coach in real time. Instant reads on your decisions and habits — feedback as the game is happening, not after.</p>
+      <div class="tag-row"><span class="tag">Real-Time</span><span class="tag">All Ranks</span></div>
+    </div>
+    <div class="service-card">
+      <div class="card-num">03</div>
+      <div class="service-icon">⚙️</div>
+      <h3>Mechanics Training</h3>
+      <p>From your first aerial to flip resets — I'll isolate what's holding back your mechanics and build custom drills to lock them in for good.</p>
+      <div class="tag-row"><span class="tag">Freeplay</span><span class="tag">Custom Drills</span></div>
+    </div>
+    <div class="service-card">
+      <div class="card-num">04</div>
+      <div class="service-icon">🧠</div>
+      <h3>Mental Game</h3>
+      <p>Tilting costs ranks. I'll help you stay locked in under pressure, avoid burnout, and build the kind of consistency that separates good from great.</p>
+      <div class="tag-row"><span class="tag">Mindset</span><span class="tag">Consistency</span></div>
+    </div>
+    <div class="service-card">
+      <div class="card-num">05</div>
+      <div class="service-icon">🌍</div>
+      <h3>Any Region, Anyone</h3>
+      <p>NA, EU, OCE, SAM, MENA — doesn't matter. I coach all ranks, all regions, and all types of players. No exceptions, no gatekeeping.</p>
+      <div class="tag-row"><span class="tag">Global</span><span class="tag">Inclusive</span></div>
+    </div>
+    <div class="service-card">
+      <div class="card-num">06</div>
+      <div class="service-icon">📈</div>
+      <h3>Rank-Up Roadmap</h3>
+      <p>Leave with a clear personalised plan — exactly which skills to develop, habits to form, and mistakes to cut to break through your ceiling.</p>
+      <div class="tag-row"><span class="tag">Goal-Oriented</span><span class="tag">Long-Term</span></div>
+    </div>
+	   <div class="service-card">
+      <div class="card-num">07</div>
+      <div class="service-icon">💵</div>
+      <h3>How to Win</h3>
+      <p>Understand the fundamentals of how to win, how to put yourself in a winning position, and ensure winning over time.</p>
+      <div class="tag-row"><span class="tag">Development</span><span class="tag">Success</span></div>
+    </div>
+	  <div class="service-card">
+      <div class="card-num">08</div>
+      <div class="service-icon">🏋️</div>
+      <h3>Off the Field</h3>
+      <p>Improving isn't only on the field, it's also off the field. Taking care of yourself is important and certain training can help you drastically.</p>
+      <div class="tag-row"><span class="tag">Self-improvement</span><span class="tag">Health</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="band"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+
+    <div class="sec-hdr" style="margin-bottom:2rem;">
+      <div>
+        <p class="sec-tag">// Get in touch</p>
+        <h2 class="sec-title">READY TO <span class="b">RANK UP?</span></h2>
+      </div>
+    </div>
+
+    <div class="contact-box">
+      <p class="contact-desc">Send me a Discord DM and let's talk. Tell me your rank, region, and what you want to work on and I'll get back to you fast.</p>
+
+      <div class="discord-block">
+        <div class="discord-ico-wrap">
+          <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.033.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        </div>
+        <div class="discord-text">
+          <strong>omason</strong>
+          <span>Discord DM — preferred contact</span>
+        </div>
+      </div>
+
+      <p class="socials-lbl">// Also find me at</p>
+      <div class="socials-row">
+        <a href="https://twitter.com/maykayRL" target="_blank" class="soc-tile twitter">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Twitter
+        </a>
+        <a href="https://twitch.tv/maykayRL" target="_blank" class="soc-tile twitch">
+          <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+          Twitch
+        </a>
+        <a href="https://youtube.com/@maykayRL" target="_blank" class="soc-tile youtube">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+        <a href="https://tiktok.com/@maykayRL" target="_blank" class="soc-tile tiktok">
+          <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+          TikTok
+        </a>
+        <a href="https://instagram.com/maykayRL" target="_blank" class="soc-tile instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </a>
+      </div>
+
+      <p class="contact-note">
+        <strong>What to include in your DM:</strong> your current rank, region, and what you want to focus on. The more detail, the faster we hit the ground running.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">★ MAY<span>KAY</span> // RL COACHING</div>
+  <div class="footer-copy">© 2026 · GRAND CHAMPION III · ANY RANK · ALL REGIONS</div>
+</footer>
+
+</body>
+</html>
